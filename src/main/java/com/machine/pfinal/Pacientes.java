@@ -576,6 +576,27 @@ public class Pacientes extends javax.swing.JFrame {
     
     private void btnAgregarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPacienteActionPerformed
     
+        
+        if (txtDpi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El DPI es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (txtNit.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El NIT es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (txtNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (txtApellido.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El apellido es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         Connection connection = Database.getConnection();
         
         String pacienteQuery = "INSERT INTO Pacientes(DPI, NIT, Nombre, Apellido, Direccion, Sexo, Diagnostico, Tipo_Sangre) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";

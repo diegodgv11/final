@@ -91,7 +91,6 @@ public class Empleados extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         btnClose = new javax.swing.JButton();
         btnActualizarTabla = new javax.swing.JButton();
-        btnVer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -404,17 +403,17 @@ public class Empleados extends javax.swing.JFrame {
         tableEmpleados.setForeground(new java.awt.Color(255, 255, 255));
         tableEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "DPI", "NIT", "Nombre", "Apellido"
+                "ID", "DPI", "NIT", "Nombre", "Apellido", "Puesto"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -451,18 +450,6 @@ public class Empleados extends javax.swing.JFrame {
             }
         });
 
-        btnVer.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.GreyInline"));
-        btnVer.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        btnVer.setForeground(new java.awt.Color(255, 255, 255));
-        btnVer.setText("Ver más");
-        btnVer.setToolTipText("");
-        btnVer.setPreferredSize(new java.awt.Dimension(198, 102));
-        btnVer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -477,10 +464,7 @@ public class Empleados extends javax.swing.JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(28, Short.MAX_VALUE))))
         );
@@ -497,10 +481,8 @@ public class Empleados extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -526,64 +508,6 @@ public class Empleados extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
-
-        if (tableEmpleados.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecciona un empleado en la tabla", "Alerta", JOptionPane.OK_OPTION);
-            return;
-        }
-
-        long id = Long.parseLong((String)tableEmpleados.getValueAt(tableEmpleados.getSelectedRow(), 0));
-        Connection connection = Database.getConnection();
-
-        String query = "SELECT * FROM Empleados WHERE ID_Empleado = ?";
-        String telefonosQuery = "SELECT Telefono FROM Telefonos_Empleados WHERE ID_Empleado = ?";
-        String emailsQuery = "SELECT Correo FROM Correos_Empleados WHERE ID_Empleado = ?";
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            PreparedStatement telefonosStatement = connection.prepareStatement(telefonosQuery);
-            PreparedStatement emailsStatement = connection.prepareStatement(emailsQuery);
-
-            statement.setLong(1, id);
-            telefonosStatement.setLong(1, id);
-            emailsStatement.setLong(1, id);
-
-            ResultSet results = statement.executeQuery();
-            ResultSet resultsTelefonos = telefonosStatement.executeQuery();
-            ResultSet resultsCorreos = emailsStatement.executeQuery();
-
-            ArrayList<String> telefonos = new ArrayList<>();
-            ArrayList<String> correos = new ArrayList<>();
-
-            while(resultsTelefonos.next())
-            telefonos.add(resultsTelefonos.getString("Telefono"));
-
-            while(resultsCorreos.next())
-            correos.add(resultsCorreos.getString("Correo"));
-
-            if (results.next()) {
-                
-                long IdPuesto = Long.parseLong(results.getString("ID_Puesto"));
-                String puesto = "";        
-                
-                new EmpleadoDetalles(new String []{
-                    results.getString("DPI"),
-                    results.getString("NIT"),
-                    results.getString("Nombre"),
-                    results.getString("Apellido"),
-                    results.getString("Direccion"),
-                    results.getString("Sexo"),
-                    puesto
-                }, telefonos, correos).setVisible(true);
-            }
-
-        } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_btnVerActionPerformed
 
     private void btnAgregarTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTelefonoActionPerformed
         if (!txtTelefono.getText().isEmpty()) {
@@ -622,7 +546,7 @@ public class Empleados extends javax.swing.JFrame {
         while (tableModel.getRowCount() > 0)
         tableModel.removeRow(0);
 
-        String query = "SELECT ID_Empleado, DPI, NIT, Nombre, Apellido FROM Empleados";
+        String query = "SELECT Empleados.ID_Empleado, Empleados.DPI, Empleados.NIT, Empleados.Nombre, Empleados.Apellido, Puestos.Puesto AS Puesto FROM Empleados JOIN Puestos ON Empleados.ID_Puesto = Puestos.ID_Puesto";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet results = statement.executeQuery();
@@ -634,7 +558,8 @@ public class Empleados extends javax.swing.JFrame {
                     results.getString("DPI"),
                     results.getString("NIT"),
                     results.getString("Nombre"),
-                    results.getString("Apellido")
+                    results.getString("Apellido"),
+                    results.getString("Puesto")
                 });
 
             }
@@ -653,6 +578,26 @@ public class Empleados extends javax.swing.JFrame {
 
     private void btnAgregarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleadoActionPerformed
 
+        if (txtDpi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El DPI es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (txtNit.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El NIT es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (txtNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (txtApellido.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El apellido es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         Connection connection = Database.getConnection();
 
         String empleadoQuery = "INSERT INTO Empleados(DPI, NIT, Nombre, Apellido, Direccion, Sexo, ID_Puesto) VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -723,7 +668,9 @@ public class Empleados extends javax.swing.JFrame {
         comboEmails.removeAllItems();
         
         comboSexo.setSelectedIndex(0);
-        comboPuestos.setSelectedIndex(0);
+        
+        if (comboPuestos.getItemCount() > 0)
+            comboPuestos.setSelectedIndex(0);
         
     }
     
@@ -755,7 +702,6 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRemoverEmail;
     private javax.swing.JButton btnRemoverTelefono;
-    private javax.swing.JButton btnVer;
     private javax.swing.JComboBox<String> comboEmails;
     private javax.swing.JComboBox<String> comboPuestos;
     private javax.swing.JComboBox<String> comboSexo;
