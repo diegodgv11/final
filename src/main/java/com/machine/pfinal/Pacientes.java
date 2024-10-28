@@ -5,8 +5,14 @@
 package com.machine.pfinal;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.machine.conexion.Database;
+import com.machine.database.Database;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,11 +20,13 @@ import java.sql.Connection;
  */
 public class Pacientes extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Pacientes
-     */
     public Pacientes() {
-        initComponents();        
+        initComponents();
+        
+        DefaultTableModel tableModel = (DefaultTableModel) tablePacientes.getModel();
+        
+        while (tableModel.getRowCount() > 0)
+            tableModel.removeRow(0);
     }
 
     /**
@@ -68,8 +76,10 @@ public class Pacientes extends javax.swing.JFrame {
         tablePacientes = new javax.swing.JTable();
         btnActualizarTabla = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        btnClose = new javax.swing.JButton();
         btnAgregarPaciente = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        btnVer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pacientes");
@@ -243,11 +253,12 @@ public class Pacientes extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(JPanelPersonalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(JPanelPersonalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(JPanelPersonalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
                 .addGap(18, 18, 18)
                 .addGroup(JPanelPersonalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -387,19 +398,29 @@ public class Pacientes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tablePacientes.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        tablePacientes.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         tablePacientes.setForeground(new java.awt.Color(255, 255, 255));
         tablePacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "DPI", "NIT", "Nombre", "Apellido", "Dirección", "Teléfonos", "Emails", "Diagnóstico"
+                "ID", "DPI", "NIT", "Nombre", "Apellido"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablePacientes.setShowGrid(true);
+        tablePacientes.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tablePacientes);
 
         btnActualizarTabla.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
@@ -415,7 +436,18 @@ public class Pacientes extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Detalles");
+        jLabel13.setText("Información General");
+
+        btnClose.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        btnClose.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        btnClose.setText("x");
+        btnClose.setBorderPainted(false);
+        btnClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -424,17 +456,23 @@ public class Pacientes extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(14, 14, 14)
+                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
@@ -455,7 +493,7 @@ public class Pacientes extends javax.swing.JFrame {
             }
         });
 
-        btnLimpiar.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Grey"));
+        btnLimpiar.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.GreyInline"));
         btnLimpiar.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
@@ -464,6 +502,18 @@ public class Pacientes extends javax.swing.JFrame {
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        btnVer.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.GreyInline"));
+        btnVer.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        btnVer.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer.setText("Ver más");
+        btnVer.setToolTipText("");
+        btnVer.setPreferredSize(new java.awt.Dimension(198, 102));
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
             }
         });
 
@@ -482,7 +532,9 @@ public class Pacientes extends javax.swing.JFrame {
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAgregarPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -494,7 +546,8 @@ public class Pacientes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -525,33 +578,180 @@ public class Pacientes extends javax.swing.JFrame {
     
         Connection connection = Database.getConnection();
         
+        String pacienteQuery = "INSERT INTO Pacientes(DPI, NIT, Nombre, Apellido, Direccion, Sexo, Diagnostico, Tipo_Sangre) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String telefonosQuery = "INSERT INTO Telefonos_Pacientes(ID_Paciente, Telefono) VALUES(?, ?)";
+        String emailsQuery = "INSERT INTO Correos_Pacientes(ID_Paciente, Correo) VALUES(?, ?)";
+                
+        try {
+            PreparedStatement statement = connection.prepareStatement(pacienteQuery);
+            statement.setString(1, txtDpi.getText());
+            statement.setString(2, txtNit.getText());
+            statement.setString(3, txtNombre.getText());
+            statement.setString(4, txtApellido.getText());
+            statement.setString(5, txtDireccion.getText());
+            statement.setString(6, comboSexo.getSelectedItem().toString());
+            statement.setString(7, txtDiagnostico.getText());
+            statement.setString(8, "" + comboTipoSangre.getSelectedItem() + comboRH.getSelectedItem());
+            statement.executeUpdate();
+            
+            ResultSet result = statement.getGeneratedKeys();
+            if (result.next()) {
+                long last_id = result.getLong(1);
+                
+                PreparedStatement telefonosStatement = connection.prepareStatement(telefonosQuery);
+                for (int i = 0; i < comboTelefonos.getItemCount(); i++) {
+                    telefonosStatement.setLong(1, last_id);
+                    telefonosStatement.setString(2, comboTelefonos.getItemAt(i));
+                    telefonosStatement.executeUpdate();
+                }
+                telefonosStatement.close(); 
+
+                PreparedStatement emailsStatement = connection.prepareStatement(emailsQuery);
+                for (int i = 0; i < comboEmails.getItemCount(); i++) {
+                    emailsStatement.setLong(1, last_id);
+                    emailsStatement.setString(2, comboEmails.getItemAt(i));
+                    emailsStatement.executeUpdate();
+                }
+                emailsStatement.close(); 
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Paciente no agregado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            statement.close();
+            
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Error inesperado", "Error", JOptionPane.ERROR_MESSAGE);
+        } 
         
+        JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
         
     }//GEN-LAST:event_btnAgregarPacienteActionPerformed
 
     private void btnActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTablaActionPerformed
-        // TODO add your handling code here:
+        Connection connection = Database.getConnection();
+        DefaultTableModel tableModel = (DefaultTableModel) tablePacientes.getModel();
+
+        while (tableModel.getRowCount() > 0)
+            tableModel.removeRow(0);
+        
+        String query = "SELECT ID_Paciente, DPI, NIT, Nombre, Apellido FROM Pacientes";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet results = statement.executeQuery();
+            
+            while (results.next()) {
+                
+                tableModel.addRow(new String[]{
+                    results.getString("ID_Paciente"),
+                    results.getString("DPI"),
+                    results.getString("NIT"),
+                    results.getString("Nombre"),
+                    results.getString("Apellido")
+                });
+                
+            }
+            
+            tablePacientes.setModel(tableModel);
+            
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+       
     }//GEN-LAST:event_btnActualizarTablaActionPerformed
 
     private void btnAgregarTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTelefonoActionPerformed
-        // TODO add your handling code here:
+        if (!txtTelefono.getText().isEmpty()) {
+            comboTelefonos.addItem(txtTelefono.getText());
+            txtTelefono.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Campo vacío", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAgregarTelefonoActionPerformed
 
     private void btnRemoverTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverTelefonoActionPerformed
-        // TODO add your handling code here:
+        if (comboTelefonos.getItemCount() > 0)
+            comboTelefonos.removeItemAt(comboTelefonos.getSelectedIndex());
     }//GEN-LAST:event_btnRemoverTelefonoActionPerformed
 
     private void btnAgregarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmailActionPerformed
-        // TODO add your handling code here:
+        if (!txtEmail.getText().isEmpty()) {
+            comboEmails.addItem(txtEmail.getText());
+            txtEmail.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Campo vacío", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAgregarEmailActionPerformed
 
     private void btnRemoverEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverEmailActionPerformed
-        // TODO add your handling code here:
+        if (comboEmails.getItemCount() > 0)
+            comboEmails.removeItemAt(comboEmails.getSelectedIndex());
     }//GEN-LAST:event_btnRemoverEmailActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        
+        if (tablePacientes.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona un paciente en la tabla", "Alerta", JOptionPane.OK_OPTION);
+            return;
+        }
+        
+        long id = Long.parseLong((String)tablePacientes.getValueAt(tablePacientes.getSelectedRow(), 0));
+        Connection connection = Database.getConnection();
+
+        String query = "SELECT * FROM Pacientes WHERE ID_Paciente = ?";
+        String telefonosQuery = "SELECT Telefono FROM Telefonos_Pacientes WHERE ID_Paciente = ?";
+        String emailsQuery = "SELECT Correo FROM Correos_Pacientes WHERE ID_Paciente = ?";
+        
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement telefonosStatement = connection.prepareStatement(telefonosQuery);
+            PreparedStatement emailsStatement = connection.prepareStatement(emailsQuery);
+            
+            statement.setLong(1, id);
+            telefonosStatement.setLong(1, id);
+            emailsStatement.setLong(1, id);
+            
+            ResultSet results = statement.executeQuery();
+            ResultSet resultsTelefonos = telefonosStatement.executeQuery();
+            ResultSet resultsCorreos = emailsStatement.executeQuery();
+            
+            ArrayList<String> telefonos = new ArrayList<>();
+            ArrayList<String> correos = new ArrayList<>();
+
+            while(resultsTelefonos.next())
+                telefonos.add(resultsTelefonos.getString("Telefono"));
+            
+            while(resultsCorreos.next())
+                correos.add(resultsCorreos.getString("Correo"));
+            
+            if (results.next()) {
+                new PacienteDetalles(new String []{
+                    results.getString("DPI"),
+                    results.getString("NIT"),
+                    results.getString("Nombre"),
+                    results.getString("Apellido"),
+                    results.getString("Direccion"),
+                    results.getString("Sexo"),
+                    results.getString("Tipo_Sangre"),
+                    results.getString("Diagnostico")
+                }, telefonos, correos).setVisible(true);
+            }
+            
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btnVerActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -573,9 +773,11 @@ public class Pacientes extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarEmail;
     private javax.swing.JButton btnAgregarPaciente;
     private javax.swing.JButton btnAgregarTelefono;
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRemoverEmail;
     private javax.swing.JButton btnRemoverTelefono;
+    private javax.swing.JButton btnVer;
     private javax.swing.JComboBox<String> comboEmails;
     private javax.swing.JComboBox<String> comboRH;
     private javax.swing.JComboBox<String> comboSexo;
