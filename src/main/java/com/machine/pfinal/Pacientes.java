@@ -619,12 +619,12 @@ public class Pacientes extends javax.swing.JFrame {
             }
             
             statement.close();
+          
+            JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
             
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Error inesperado", "Error", JOptionPane.ERROR_MESSAGE);
         } 
-        
-        JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
         
     }//GEN-LAST:event_btnAgregarPacienteActionPerformed
 
