@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
+import java.sql.Types;
 
 /**
  *
@@ -20,11 +21,29 @@ import java.util.ArrayList;
  */
 public class Empleados extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Empleados
-     */
+    
+    private ArrayList<Long> puestosIDs = new ArrayList<Long>();
+    
     public Empleados() {
         initComponents();
+        
+        Connection connection = Database.getConnection();
+        
+                String query = "SELECT ID_Puesto, Puesto FROM Puestos";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet results = statement.executeQuery();
+
+            while (results.next()) {
+                comboPuestos.addItem(results.getString(2));
+                puestosIDs.add(results.getLong(1));
+            }
+            
+            statement.close();
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -648,6 +667,12 @@ public class Empleados extends javax.swing.JFrame {
             statement.setString(4, txtApellido.getText());
             statement.setString(5, txtDireccion.getText());
             statement.setString(6, comboSexo.getSelectedItem().toString());
+            
+            if (comboPuestos.getItemCount() == 0) {
+                statement.setNull(7, Types.INTEGER);
+            } else {
+                statement.setString(7, puestosIDs.get(comboPuestos.getSelectedIndex()).toString());
+            }
             statement.executeUpdate();
 
             ResultSet result = statement.getGeneratedKeys();
