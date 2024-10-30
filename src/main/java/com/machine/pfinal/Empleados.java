@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.sql.Types;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -28,8 +30,8 @@ public class Empleados extends javax.swing.JFrame {
         initComponents();
         
         Connection connection = Database.getConnection();
+        String query = "SELECT ID_Puesto, Puesto FROM Puestos";
         
-                String query = "SELECT ID_Puesto, Puesto FROM Puestos";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet results = statement.executeQuery();
@@ -38,7 +40,6 @@ public class Empleados extends javax.swing.JFrame {
                 comboPuestos.addItem(results.getString(2));
                 puestosIDs.add(results.getLong(1));
             }
-            
             statement.close();
 
         } catch (SQLException error) {
@@ -92,7 +93,7 @@ public class Empleados extends javax.swing.JFrame {
         btnClose = new javax.swing.JButton();
         btnActualizarTabla = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -544,22 +545,41 @@ public class Empleados extends javax.swing.JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) tableEmpleados.getModel();
 
         while (tableModel.getRowCount() > 0)
-        tableModel.removeRow(0);
-
-        String query = "SELECT Empleados.ID_Empleado, Empleados.DPI, Empleados.NIT, Empleados.Nombre, Empleados.Apellido, Puestos.Puesto AS Puesto FROM Empleados JOIN Puestos ON Empleados.ID_Puesto = Puestos.ID_Puesto";
+            tableModel.removeRow(0);
+        
+        Map<Long, String> puestos = new HashMap<Long, String>();
+        puestos.put(-1L, "");
+        try {
+                PreparedStatement puestosStatement = connection.prepareStatement("SELECT ID_Puesto, Puesto FROM Puestos");   
+                ResultSet puestosResults = puestosStatement.executeQuery();
+                
+                while (puestosResults.next()) {
+                    
+                    puestos.put(Long.parseLong(puestosResults.getString("ID_Puesto")), puestosResults.getString("Puesto"));
+                    
+                }
+                
+        } catch (SQLException error) {
+            
+        }
+        
+        String query = "SELECT ID_Empleado, DPI, NIT, Nombre, Apellido, ID_Puesto FROM Empleados";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet results = statement.executeQuery();
 
             while (results.next()) {
 
+                String strIDPuesto = results.getString("ID_Puesto");
+                Long IDPuesto = (strIDPuesto == null || strIDPuesto.isEmpty()) ? -1 : Long.valueOf(strIDPuesto); 
+                                
                 tableModel.addRow(new String[]{
                     results.getString("ID_Empleado"),
                     results.getString("DPI"),
                     results.getString("NIT"),
                     results.getString("Nombre"),
                     results.getString("Apellido"),
-                    results.getString("Puesto")
+                    puestos.get(IDPuesto)
                 });
 
             }
