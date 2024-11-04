@@ -77,7 +77,6 @@ public class Pacientes extends javax.swing.JFrame {
         tablePacientes = new javax.swing.JTable();
         btnActualizarTabla = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        btnClose = new javax.swing.JButton();
         btnAgregarPaciente = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnVer = new javax.swing.JButton();
@@ -439,17 +438,6 @@ public class Pacientes extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Información General");
 
-        btnClose.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        btnClose.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnClose.setText("x");
-        btnClose.setBorderPainted(false);
-        btnClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -463,17 +451,11 @@ public class Pacientes extends javax.swing.JFrame {
                         .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
@@ -773,10 +755,6 @@ public class Pacientes extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnVerActionPerformed
 
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCloseActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -797,7 +775,6 @@ public class Pacientes extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarEmail;
     private javax.swing.JButton btnAgregarPaciente;
     private javax.swing.JButton btnAgregarTelefono;
-    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRemoverEmail;
     private javax.swing.JButton btnRemoverTelefono;
