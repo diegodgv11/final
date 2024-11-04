@@ -10,26 +10,25 @@ public class Database {
     private static Connection connection = null;
     private static final String path = "final.accdb";
     private static final String ucanaccessPrefix = "jdbc:ucanaccess://";
-    
+
     private Database() {}
-    
+
     public static Connection getConnection(){
         if (connection == null) {
             try {
-                connection = DriverManager.getConnection(ucanaccessPrefix + path);                   
+                connection = DriverManager.getConnection(ucanaccessPrefix + path);
             } catch (SQLException error) {
-                System.out.println(error); // BORRAR                
+								System.err.print(error);
             }
         }
-        
+
         return connection;
     }
-    
+
     public void close(){
         try {
-            connection.close();            
+            connection.close();
         } catch (SQLException error) {
-            System.out.println(error); // BORRAR
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, error);
         }
     }

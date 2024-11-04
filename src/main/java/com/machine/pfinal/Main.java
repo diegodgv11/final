@@ -38,6 +38,7 @@ public class Main extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -81,6 +82,14 @@ public class Main extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem4);
 
+        jMenuItem6.setText("Tipos de terapias");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
+
         jMenuBar1.add(jMenu3);
 
         jMenu2.setText("Configuración");
@@ -121,7 +130,7 @@ public class Main extends javax.swing.JFrame {
         Connection connection = Database.getConnection();
 
         if (connection != null) {
-            JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -140,6 +149,11 @@ public class Main extends javax.swing.JFrame {
         Medicos medicos = new Medicos();
         medicos.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        TiposTerapias tipos = new TiposTerapias();
+        tipos.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,5 +179,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
 }

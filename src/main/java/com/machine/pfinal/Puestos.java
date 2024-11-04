@@ -7,9 +7,9 @@ package com.machine.pfinal;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.machine.database.Database;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,11 +24,12 @@ public class Puestos extends javax.swing.JFrame {
      */
     public Puestos() {
         initComponents();
-        
+
         DefaultTableModel tableModel = (DefaultTableModel) tablePuestos.getModel();
-        
-        while (tableModel.getRowCount() > 0)
+
+        while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
+        }
     }
 
     /**
@@ -54,6 +55,7 @@ public class Puestos extends javax.swing.JFrame {
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -240,9 +242,9 @@ public class Puestos extends javax.swing.JFrame {
             statement.setFloat(2, Float.parseFloat(txtSueldo.getText()));
             statement.executeUpdate();
             statement.close();
-            
+
+            JOptionPane.showMessageDialog(null, "Puesto agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             limpiar();
-            JOptionPane.showMessageDialog(null, "Puesto agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Error inesperado:" + error, "Error", JOptionPane.ERROR_MESSAGE);
@@ -253,7 +255,7 @@ public class Puestos extends javax.swing.JFrame {
         txtDescripcion.setText("");
         txtSueldo.setText("");
     }
-    
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
@@ -262,8 +264,9 @@ public class Puestos extends javax.swing.JFrame {
         Connection connection = Database.getConnection();
         DefaultTableModel tableModel = (DefaultTableModel) tablePuestos.getModel();
 
-        while (tableModel.getRowCount() > 0)
+        while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
+        }
 
         String query = "SELECT ID_Puesto, Puesto, Sueldo FROM Puestos";
         try {
@@ -279,7 +282,7 @@ public class Puestos extends javax.swing.JFrame {
                 });
 
             }
-            
+
             statement.close();
 
             tablePuestos.setModel(tableModel);

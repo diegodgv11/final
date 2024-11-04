@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -71,9 +72,11 @@ public class Medicos extends javax.swing.JFrame {
         tableMedicos = new javax.swing.JTable();
         btnActualizarTabla = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        btnVer = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -306,7 +309,7 @@ public class Medicos extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
-                .addComponent(txtLicencia)
+                .addComponent(txtLicencia, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                 .addGap(198, 198, 198))
         );
         jPanel4Layout.setVerticalGroup(
@@ -316,7 +319,7 @@ public class Medicos extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(txtLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         btnAgregarPaciente.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
@@ -377,24 +380,24 @@ public class Medicos extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         tableMedicos.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         tableMedicos.setForeground(new java.awt.Color(255, 255, 255));
         tableMedicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "DPI", "NIT", "Licencia", "Nombre", "Apellido", "Sexo", "Dirección"
+                "ID", "DPI", "NIT", "Licencia", "Nombre", "Apellido", "Sexo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, true, true
+                false, false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -420,6 +423,18 @@ public class Medicos extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Información General");
 
+        btnVer.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.GreyInline"));
+        btnVer.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        btnVer.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer.setText("Ver más");
+        btnVer.setToolTipText("");
+        btnVer.setPreferredSize(new java.awt.Dimension(198, 102));
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -430,6 +445,8 @@ public class Medicos extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -439,10 +456,15 @@ public class Medicos extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -468,10 +490,10 @@ public class Medicos extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))))
@@ -481,13 +503,13 @@ public class Medicos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -558,7 +580,8 @@ public class Medicos extends javax.swing.JFrame {
 
             statement.close();
 
-            JOptionPane.showMessageDialog(null, "Medico agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Medico agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Error inesperado", "Error", JOptionPane.ERROR_MESSAGE);
@@ -640,8 +663,7 @@ public class Medicos extends javax.swing.JFrame {
                     results.getString("Licencia_Sanitaria"),
                     results.getString("Nombre"),
                     results.getString("Apellido"),
-                    results.getString("Sexo"),
-                    results.getString("Direccion")
+                    results.getString("Sexo")
                 });
 
             }
@@ -657,6 +679,61 @@ public class Medicos extends javax.swing.JFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+
+        if (tableMedicos.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona un médico en la tabla", "Alerta", JOptionPane.OK_OPTION);
+            return;
+        }
+
+        long id = Long.parseLong((String) tableMedicos.getValueAt(tableMedicos.getSelectedRow(), 0));
+        Connection connection = Database.getConnection();
+
+        String query = "SELECT * FROM Medicos WHERE ID_Medico = ?";
+        String telefonosQuery = "SELECT Telefono FROM Telefonos_Medicos WHERE ID_Medico = ?";
+        String emailsQuery = "SELECT Correo FROM Correos_Medicos WHERE ID_Medico = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement telefonosStatement = connection.prepareStatement(telefonosQuery);
+            PreparedStatement emailsStatement = connection.prepareStatement(emailsQuery);
+
+            statement.setLong(1, id);
+            telefonosStatement.setLong(1, id);
+            emailsStatement.setLong(1, id);
+
+            ResultSet results = statement.executeQuery();
+            ResultSet resultsTelefonos = telefonosStatement.executeQuery();
+            ResultSet resultsCorreos = emailsStatement.executeQuery();
+
+            ArrayList<String> telefonos = new ArrayList<>();
+            ArrayList<String> correos = new ArrayList<>();
+
+            while (resultsTelefonos.next()) {
+                telefonos.add(resultsTelefonos.getString("Telefono"));
+            }
+
+            while (resultsCorreos.next()) {
+                correos.add(resultsCorreos.getString("Correo"));
+            }
+
+            if (results.next()) {
+                new MedicoDetalles(new String[]{
+                    results.getString("DPI"),
+                    results.getString("NIT"),
+                    results.getString("Nombre"),
+                    results.getString("Apellido"),
+                    results.getString("Direccion"),
+                    results.getString("Sexo"),
+                    results.getString("Licencia_Sanitaria")
+                }, telefonos, correos).setVisible(true);
+            }
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnVerActionPerformed
 
     public static void main(String args[]) {
         FlatDarkLaf.setup();
@@ -678,6 +755,7 @@ public class Medicos extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRemoverEmail;
     private javax.swing.JButton btnRemoverTelefono;
+    private javax.swing.JButton btnVer;
     private javax.swing.JComboBox<String> comboEmails;
     private javax.swing.JComboBox<String> comboSexo;
     private javax.swing.JComboBox<String> comboTelefonos;

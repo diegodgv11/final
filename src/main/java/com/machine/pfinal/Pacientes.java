@@ -7,12 +7,12 @@ package com.machine.pfinal;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.machine.database.Database;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
 
 /**
  *
@@ -22,11 +22,12 @@ public class Pacientes extends javax.swing.JFrame {
 
     public Pacientes() {
         initComponents();
-        
+
         DefaultTableModel tableModel = (DefaultTableModel) tablePacientes.getModel();
-        
-        while (tableModel.getRowCount() > 0)
+
+        while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
+        }
     }
 
     /**
@@ -555,7 +556,7 @@ public class Pacientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void limpiar() {
-    
+
         txtDpi.setText("");
         txtNit.setText("");
         txtNombre.setText("");
@@ -564,45 +565,44 @@ public class Pacientes extends javax.swing.JFrame {
         txtTelefono.setText("");
         txtEmail.setText("");
         txtDiagnostico.setText("");
-        
+
         comboTelefonos.removeAllItems();
         comboEmails.removeAllItems();
-        
+
         comboSexo.setSelectedIndex(0);
         comboTipoSangre.setSelectedIndex(0);
         comboRH.setSelectedIndex(0);
-        
+
     }
-    
+
     private void btnAgregarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPacienteActionPerformed
-    
-        
+
         if (txtDpi.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El DPI es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (txtNit.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El NIT es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (txtNombre.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El nombre es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (txtApellido.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El apellido es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         Connection connection = Database.getConnection();
-        
+
         String pacienteQuery = "INSERT INTO Pacientes(DPI, NIT, Nombre, Apellido, Direccion, Sexo, Diagnostico, Tipo_Sangre) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         String telefonosQuery = "INSERT INTO Telefonos_Pacientes(ID_Paciente, Telefono) VALUES(?, ?)";
         String emailsQuery = "INSERT INTO Correos_Pacientes(ID_Paciente, Correo) VALUES(?, ?)";
-                
+
         try {
             PreparedStatement statement = connection.prepareStatement(pacienteQuery);
             statement.setString(1, txtDpi.getText());
@@ -614,18 +614,18 @@ public class Pacientes extends javax.swing.JFrame {
             statement.setString(7, txtDiagnostico.getText());
             statement.setString(8, "" + comboTipoSangre.getSelectedItem() + comboRH.getSelectedItem());
             statement.executeUpdate();
-            
+
             ResultSet result = statement.getGeneratedKeys();
             if (result.next()) {
                 long last_id = result.getLong(1);
-                
+
                 PreparedStatement telefonosStatement = connection.prepareStatement(telefonosQuery);
                 for (int i = 0; i < comboTelefonos.getItemCount(); i++) {
                     telefonosStatement.setLong(1, last_id);
                     telefonosStatement.setString(2, comboTelefonos.getItemAt(i));
                     telefonosStatement.executeUpdate();
                 }
-                telefonosStatement.close(); 
+                telefonosStatement.close();
 
                 PreparedStatement emailsStatement = connection.prepareStatement(emailsQuery);
                 for (int i = 0; i < comboEmails.getItemCount(); i++) {
@@ -633,36 +633,37 @@ public class Pacientes extends javax.swing.JFrame {
                     emailsStatement.setString(2, comboEmails.getItemAt(i));
                     emailsStatement.executeUpdate();
                 }
-                emailsStatement.close(); 
-            }
-            else {
+                emailsStatement.close();
+            } else {
                 JOptionPane.showMessageDialog(null, "Paciente no agregado", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
+
             statement.close();
-          
-            JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
-            
+
+            JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Error inesperado", "Error", JOptionPane.ERROR_MESSAGE);
-        } 
-        
+        }
+
     }//GEN-LAST:event_btnAgregarPacienteActionPerformed
 
     private void btnActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTablaActionPerformed
         Connection connection = Database.getConnection();
         DefaultTableModel tableModel = (DefaultTableModel) tablePacientes.getModel();
 
-        while (tableModel.getRowCount() > 0)
+        while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
-        
+        }
+
         String query = "SELECT ID_Paciente, DPI, NIT, Nombre, Apellido FROM Pacientes";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet results = statement.executeQuery();
-            
+
             while (results.next()) {
-                
+
                 tableModel.addRow(new String[]{
                     results.getString("ID_Paciente"),
                     results.getString("DPI"),
@@ -670,45 +671,45 @@ public class Pacientes extends javax.swing.JFrame {
                     results.getString("Nombre"),
                     results.getString("Apellido")
                 });
-                
+
             }
-            
+
             tablePacientes.setModel(tableModel);
-            
+
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
         }
-       
+
     }//GEN-LAST:event_btnActualizarTablaActionPerformed
 
     private void btnAgregarTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTelefonoActionPerformed
         if (!txtTelefono.getText().isEmpty()) {
             comboTelefonos.addItem(txtTelefono.getText());
             txtTelefono.setText("");
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "Campo vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarTelefonoActionPerformed
 
     private void btnRemoverTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverTelefonoActionPerformed
-        if (comboTelefonos.getItemCount() > 0)
+        if (comboTelefonos.getItemCount() > 0) {
             comboTelefonos.removeItemAt(comboTelefonos.getSelectedIndex());
+        }
     }//GEN-LAST:event_btnRemoverTelefonoActionPerformed
 
     private void btnAgregarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmailActionPerformed
         if (!txtEmail.getText().isEmpty()) {
             comboEmails.addItem(txtEmail.getText());
             txtEmail.setText("");
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "Campo vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarEmailActionPerformed
 
     private void btnRemoverEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverEmailActionPerformed
-        if (comboEmails.getItemCount() > 0)
+        if (comboEmails.getItemCount() > 0) {
             comboEmails.removeItemAt(comboEmails.getSelectedIndex());
+        }
     }//GEN-LAST:event_btnRemoverEmailActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -716,43 +717,45 @@ public class Pacientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
-        
+
         if (tablePacientes.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Selecciona un paciente en la tabla", "Alerta", JOptionPane.OK_OPTION);
             return;
         }
-        
-        long id = Long.parseLong((String)tablePacientes.getValueAt(tablePacientes.getSelectedRow(), 0));
+
+        long id = Long.parseLong((String) tablePacientes.getValueAt(tablePacientes.getSelectedRow(), 0));
         Connection connection = Database.getConnection();
 
         String query = "SELECT * FROM Pacientes WHERE ID_Paciente = ?";
         String telefonosQuery = "SELECT Telefono FROM Telefonos_Pacientes WHERE ID_Paciente = ?";
         String emailsQuery = "SELECT Correo FROM Correos_Pacientes WHERE ID_Paciente = ?";
-        
+
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             PreparedStatement telefonosStatement = connection.prepareStatement(telefonosQuery);
             PreparedStatement emailsStatement = connection.prepareStatement(emailsQuery);
-            
+
             statement.setLong(1, id);
             telefonosStatement.setLong(1, id);
             emailsStatement.setLong(1, id);
-            
+
             ResultSet results = statement.executeQuery();
             ResultSet resultsTelefonos = telefonosStatement.executeQuery();
             ResultSet resultsCorreos = emailsStatement.executeQuery();
-            
+
             ArrayList<String> telefonos = new ArrayList<>();
             ArrayList<String> correos = new ArrayList<>();
 
-            while(resultsTelefonos.next())
+            while (resultsTelefonos.next()) {
                 telefonos.add(resultsTelefonos.getString("Telefono"));
-            
-            while(resultsCorreos.next())
+            }
+
+            while (resultsCorreos.next()) {
                 correos.add(resultsCorreos.getString("Correo"));
-            
+            }
+
             if (results.next()) {
-                new PacienteDetalles(new String []{
+                new PacienteDetalles(new String[]{
                     results.getString("DPI"),
                     results.getString("NIT"),
                     results.getString("Nombre"),
@@ -763,11 +766,11 @@ public class Pacientes extends javax.swing.JFrame {
                     results.getString("Diagnostico")
                 }, telefonos, correos).setVisible(true);
             }
-            
+
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnVerActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -779,7 +782,7 @@ public class Pacientes extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         FlatDarkLaf.setup();
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -7,15 +7,15 @@ package com.machine.pfinal;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.machine.database.Database;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
-import java.sql.Types;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  *
@@ -23,15 +23,14 @@ import java.util.HashMap;
  */
 public class Empleados extends javax.swing.JFrame {
 
-    
     private ArrayList<Long> puestosIDs = new ArrayList<Long>();
-    
+
     public Empleados() {
         initComponents();
-        
+
         Connection connection = Database.getConnection();
         String query = "SELECT ID_Puesto, Puesto FROM Puestos";
-        
+
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet results = statement.executeQuery();
@@ -94,6 +93,7 @@ public class Empleados extends javax.swing.JFrame {
         btnActualizarTabla = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -514,55 +514,56 @@ public class Empleados extends javax.swing.JFrame {
         if (!txtTelefono.getText().isEmpty()) {
             comboTelefonos.addItem(txtTelefono.getText());
             txtTelefono.setText("");
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "Campo vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarTelefonoActionPerformed
 
     private void btnRemoverTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverTelefonoActionPerformed
-        if (comboTelefonos.getItemCount() > 0)
-        comboTelefonos.removeItemAt(comboTelefonos.getSelectedIndex());
+        if (comboTelefonos.getItemCount() > 0) {
+            comboTelefonos.removeItemAt(comboTelefonos.getSelectedIndex());
+        }
     }//GEN-LAST:event_btnRemoverTelefonoActionPerformed
 
     private void btnAgregarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmailActionPerformed
         if (!txtEmail.getText().isEmpty()) {
             comboEmails.addItem(txtEmail.getText());
             txtEmail.setText("");
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "Campo vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarEmailActionPerformed
 
     private void btnRemoverEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverEmailActionPerformed
-        if (comboEmails.getItemCount() > 0)
-        comboEmails.removeItemAt(comboEmails.getSelectedIndex());
+        if (comboEmails.getItemCount() > 0) {
+            comboEmails.removeItemAt(comboEmails.getSelectedIndex());
+        }
     }//GEN-LAST:event_btnRemoverEmailActionPerformed
 
     private void btnActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTablaActionPerformed
         Connection connection = Database.getConnection();
         DefaultTableModel tableModel = (DefaultTableModel) tableEmpleados.getModel();
 
-        while (tableModel.getRowCount() > 0)
+        while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
-        
+        }
+
         Map<Long, String> puestos = new HashMap<Long, String>();
         puestos.put(-1L, "");
         try {
-                PreparedStatement puestosStatement = connection.prepareStatement("SELECT ID_Puesto, Puesto FROM Puestos");   
-                ResultSet puestosResults = puestosStatement.executeQuery();
-                
-                while (puestosResults.next()) {
-                    
-                    puestos.put(Long.parseLong(puestosResults.getString("ID_Puesto")), puestosResults.getString("Puesto"));
-                    
-                }
-                
+            PreparedStatement puestosStatement = connection.prepareStatement("SELECT ID_Puesto, Puesto FROM Puestos");
+            ResultSet puestosResults = puestosStatement.executeQuery();
+
+            while (puestosResults.next()) {
+
+                puestos.put(Long.parseLong(puestosResults.getString("ID_Puesto")), puestosResults.getString("Puesto"));
+
+            }
+
         } catch (SQLException error) {
-            
+
         }
-        
+
         String query = "SELECT ID_Empleado, DPI, NIT, Nombre, Apellido, ID_Puesto FROM Empleados";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -571,8 +572,8 @@ public class Empleados extends javax.swing.JFrame {
             while (results.next()) {
 
                 String strIDPuesto = results.getString("ID_Puesto");
-                Long IDPuesto = (strIDPuesto == null || strIDPuesto.isEmpty()) ? -1 : Long.valueOf(strIDPuesto); 
-                                
+                Long IDPuesto = (strIDPuesto == null || strIDPuesto.isEmpty()) ? -1 : Long.valueOf(strIDPuesto);
+
                 tableModel.addRow(new String[]{
                     results.getString("ID_Empleado"),
                     results.getString("DPI"),
@@ -602,22 +603,22 @@ public class Empleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El DPI es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (txtNit.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El NIT es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (txtNombre.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El nombre es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (txtApellido.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El apellido es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         Connection connection = Database.getConnection();
 
         String empleadoQuery = "INSERT INTO Empleados(DPI, NIT, Nombre, Apellido, Direccion, Sexo, ID_Puesto) VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -632,7 +633,7 @@ public class Empleados extends javax.swing.JFrame {
             statement.setString(4, txtApellido.getText());
             statement.setString(5, txtDireccion.getText());
             statement.setString(6, comboSexo.getSelectedItem().toString());
-            
+
             if (comboPuestos.getItemCount() == 0) {
                 statement.setNull(7, Types.INTEGER);
             } else {
@@ -659,14 +660,14 @@ public class Empleados extends javax.swing.JFrame {
                     emailsStatement.executeUpdate();
                 }
                 emailsStatement.close();
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Empleado no agregado", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
             statement.close();
-            
-            JOptionPane.showMessageDialog(null, "Empleado agregado correctamente", "Éxito", JOptionPane.OK_OPTION);
+
+            JOptionPane.showMessageDialog(null, "Empleado agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Error inesperado:" + error, "Error", JOptionPane.ERROR_MESSAGE);
@@ -675,7 +676,7 @@ public class Empleados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarEmpleadoActionPerformed
 
     private void limpiar() {
-    
+
         txtDpi.setText("");
         txtNit.setText("");
         txtNombre.setText("");
@@ -683,17 +684,18 @@ public class Empleados extends javax.swing.JFrame {
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtEmail.setText("");
-        
+
         comboTelefonos.removeAllItems();
         comboEmails.removeAllItems();
-        
+
         comboSexo.setSelectedIndex(0);
-        
-        if (comboPuestos.getItemCount() > 0)
+
+        if (comboPuestos.getItemCount() > 0) {
             comboPuestos.setSelectedIndex(0);
-        
+        }
+
     }
-    
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
