@@ -114,8 +114,8 @@ public class EmpleadoDetalles extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Dirección:");
 
+        txtDpi.setEditable(false);
         txtDpi.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        txtDpi.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
