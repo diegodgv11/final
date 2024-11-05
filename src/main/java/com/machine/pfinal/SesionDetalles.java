@@ -67,7 +67,7 @@ public class SesionDetalles extends javax.swing.JFrame {
         txtMedico = new javax.swing.JTextField();
         txtTipoTerapia = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         JPanelPersonal3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), "Ejercicios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 0, 18), javax.swing.UIManager.getDefaults().getColor("Actions.Grey"))); // NOI18N
