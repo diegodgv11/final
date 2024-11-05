@@ -28,6 +28,11 @@ public class Empleados extends javax.swing.JFrame {
     public Empleados() {
         initComponents();
 
+        DefaultTableModel tableModel = (DefaultTableModel) tableEmpleados.getModel();
+        while (tableModel.getRowCount() > 0) {
+            tableModel.removeRow(0);
+        }
+
         Connection connection = Database.getConnection();
         String query = "SELECT ID_Puesto, Puesto FROM Puestos";
 

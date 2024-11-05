@@ -24,6 +24,11 @@ public class TiposTerapias extends javax.swing.JFrame {
      */
     public TiposTerapias() {
         initComponents();
+
+        DefaultTableModel tableModel = (DefaultTableModel) tableTipos.getModel();
+        while (tableModel.getRowCount() > 0) {
+            tableModel.removeRow(0);
+        }
     }
 
     /**
@@ -43,7 +48,7 @@ public class TiposTerapias extends javax.swing.JFrame {
         btnAgregarPuesto = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablePuestos = new javax.swing.JTable();
+        tableTipos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -118,9 +123,9 @@ public class TiposTerapias extends javax.swing.JFrame {
             }
         });
 
-        tablePuestos.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        tablePuestos.setForeground(new java.awt.Color(255, 255, 255));
-        tablePuestos.setModel(new javax.swing.table.DefaultTableModel(
+        tableTipos.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        tableTipos.setForeground(new java.awt.Color(255, 255, 255));
+        tableTipos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -139,9 +144,9 @@ public class TiposTerapias extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tablePuestos.setShowGrid(true);
-        tablePuestos.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tablePuestos);
+        tableTipos.setShowGrid(true);
+        tableTipos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tableTipos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,7 +200,7 @@ public class TiposTerapias extends javax.swing.JFrame {
 
     private void btnActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTablaActionPerformed
         Connection connection = Database.getConnection();
-        DefaultTableModel tableModel = (DefaultTableModel) tablePuestos.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) tableTipos.getModel();
 
         while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
@@ -217,7 +222,7 @@ public class TiposTerapias extends javax.swing.JFrame {
 
             statement.close();
 
-            tablePuestos.setModel(tableModel);
+            tableTipos.setModel(tableModel);
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
@@ -272,7 +277,7 @@ public class TiposTerapias extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tablePuestos;
+    private javax.swing.JTable tableTipos;
     private javax.swing.JTextField txtDescripcion;
     // End of variables declaration//GEN-END:variables
 }

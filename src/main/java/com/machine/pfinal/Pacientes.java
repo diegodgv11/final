@@ -24,7 +24,6 @@ public class Pacientes extends javax.swing.JFrame {
         initComponents();
 
         DefaultTableModel tableModel = (DefaultTableModel) tablePacientes.getModel();
-
         while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
         }

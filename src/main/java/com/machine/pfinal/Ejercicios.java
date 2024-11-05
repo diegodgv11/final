@@ -21,6 +21,10 @@ public class Ejercicios extends javax.swing.JFrame {
     public Ejercicios() {
         initComponents();
 
+        DefaultTableModel tableModel = (DefaultTableModel) tableEjercicios.getModel();
+        while (tableModel.getRowCount() > 0) {
+            tableModel.removeRow(0);
+        }
     }
 
     /**

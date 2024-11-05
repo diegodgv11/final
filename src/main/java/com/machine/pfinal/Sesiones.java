@@ -33,6 +33,11 @@ public class Sesiones extends javax.swing.JFrame {
     public Sesiones() {
         initComponents();
 
+        DefaultTableModel tableModel = (DefaultTableModel) tableSesiones.getModel();
+        while (tableModel.getRowCount() > 0) {
+            tableModel.removeRow(0);
+        }
+
         Connection connection = Database.getConnection();
         String queryTipos = "SELECT ID_Tipo, Descripcion FROM Tipos_Terapias";
 
