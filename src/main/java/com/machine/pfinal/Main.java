@@ -147,7 +147,7 @@ public class Main extends javax.swing.JFrame {
         Connection connection = Database.getConnection();
 
         if (connection != null) {
-            JOptionPane.showMessageDialog(null, "Paciente agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Conexión válida", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed

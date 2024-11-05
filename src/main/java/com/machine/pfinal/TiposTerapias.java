@@ -37,7 +37,6 @@ public class TiposTerapias extends javax.swing.JFrame {
 
         btnActualizarTabla = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btnClose = new javax.swing.JButton();
         JPanelPersonal = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
@@ -63,17 +62,6 @@ public class TiposTerapias extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Tipos de Terapias");
-
-        btnClose.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        btnClose.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnClose.setText("x");
-        btnClose.setBorderPainted(false);
-        btnClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
 
         JPanelPersonal.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 0, 18), javax.swing.UIManager.getDefaults().getColor("Actions.Grey"))); // NOI18N
         JPanelPersonal.setForeground(new java.awt.Color(204, 204, 204));
@@ -177,26 +165,17 @@ public class TiposTerapias extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(83, 83, 83)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(393, 393, 393)
-                        .addComponent(btnClose))
+                    .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(btnClose)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))))
+                    .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -249,10 +228,6 @@ public class TiposTerapias extends javax.swing.JFrame {
         txtDescripcion.setText("");
     }
 
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCloseActionPerformed
-
     private void btnAgregarPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPuestoActionPerformed
 
         Connection connection = Database.getConnection();
@@ -293,7 +268,6 @@ public class TiposTerapias extends javax.swing.JFrame {
     private javax.swing.JPanel JPanelPersonal;
     private javax.swing.JButton btnActualizarTabla;
     private javax.swing.JButton btnAgregarPuesto;
-    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

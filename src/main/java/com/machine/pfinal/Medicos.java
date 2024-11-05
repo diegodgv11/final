@@ -74,7 +74,7 @@ public class Medicos extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         btnVer = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N

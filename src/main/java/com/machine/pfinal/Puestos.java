@@ -53,7 +53,7 @@ public class Puestos extends javax.swing.JFrame {
         tablePuestos = new javax.swing.JTable();
         btnActualizarTabla = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
