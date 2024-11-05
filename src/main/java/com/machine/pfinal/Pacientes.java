@@ -96,7 +96,7 @@ public class Pacientes extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("DPI:");
+        jLabel2.setText("CUI:");
 
         jLabel6.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -560,7 +560,7 @@ public class Pacientes extends javax.swing.JFrame {
     private void btnAgregarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPacienteActionPerformed
 
         if (txtDpi.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El DPI es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El CUI es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

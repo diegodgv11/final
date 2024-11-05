@@ -7,6 +7,7 @@ package com.machine.pfinal;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,6 +22,8 @@ import org.jdatepicker.impl.UtilDateModel;
 /** @author diegodgv11 */
 public class JPanelDatePicker extends JPanel {
 
+  private JDatePickerImpl datePicker;
+
   public JPanelDatePicker() {
     this.setLayout(new BorderLayout());
     Locale.setDefault(new Locale("es", "ES"));
@@ -30,9 +33,8 @@ public class JPanelDatePicker extends JPanel {
     p.put("text.today", "Hoy");
     p.put("text.month", "Mes");
     p.put("text.year", "Año");
-
     var datePanel = new JDatePanelImpl(model, p);
-    var datePicker =
+    datePicker =
         new JDatePickerImpl(
             datePanel,
             new JFormattedTextField.AbstractFormatter() {
@@ -52,10 +54,26 @@ public class JPanelDatePicker extends JPanel {
                 return dateFormatter.format(cal.getTime());
               }
             });
+
+    datePicker.setPreferredSize(new Dimension(200, 32));
+
     JFormattedTextField textField = datePicker.getJFormattedTextField();
     textField.setFont(new java.awt.Font("sansserif", 0, 18));
     textField.setBackground(new Color(70, 73, 75));
 
+    datePicker.getComponent(0).setPreferredSize(new Dimension(200, 32));
+    datePicker.getComponent(1).setPreferredSize(new Dimension(32, 32)); // boton
+
     this.add(datePicker);
+  }
+
+  public void setText(String text) {
+    JFormattedTextField textField = datePicker.getJFormattedTextField();
+    textField.setText(text);
+  }
+
+  public String getText() {
+    JFormattedTextField textField = datePicker.getJFormattedTextField();
+    return textField.getText();
   }
 }

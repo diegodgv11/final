@@ -89,8 +89,8 @@ public class Empleados extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableEmpleados = new javax.swing.JTable();
         jLabel13 = new javax.swing.JLabel();
-        btnClose = new javax.swing.JButton();
         btnActualizarTabla = new javax.swing.JButton();
+        btnVer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -105,7 +105,7 @@ public class Empleados extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("DPI:");
+        jLabel2.setText("CUI:");
 
         jLabel6.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -307,7 +307,7 @@ public class Empleados extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), "Información médica", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 0, 18))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), "Información laboral", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("sansserif", 0, 18))); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -429,17 +429,6 @@ public class Empleados extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Información General");
 
-        btnClose.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        btnClose.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        btnClose.setText("x");
-        btnClose.setBorderPainted(false);
-        btnClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-
         btnActualizarTabla.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         btnActualizarTabla.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         btnActualizarTabla.setForeground(new java.awt.Color(255, 255, 255));
@@ -448,6 +437,18 @@ public class Empleados extends javax.swing.JFrame {
         btnActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarTablaActionPerformed(evt);
+            }
+        });
+
+        btnVer.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.GreyInline"));
+        btnVer.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        btnVer.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer.setText("Ver más");
+        btnVer.setToolTipText("");
+        btnVer.setPreferredSize(new java.awt.Dimension(198, 102));
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
             }
         });
 
@@ -460,29 +461,27 @@ public class Empleados extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
+                        .addGap(18, 446, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(28, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
@@ -586,16 +585,13 @@ public class Empleados extends javax.swing.JFrame {
             }
 
             tableEmpleados.setModel(tableModel);
+            statement.close();
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnActualizarTablaActionPerformed
-
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnAgregarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEmpleadoActionPerformed
 
@@ -700,6 +696,79 @@ public class Empleados extends javax.swing.JFrame {
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+
+        if (tableEmpleados.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona un médico en la tabla", "Alerta", JOptionPane.OK_OPTION);
+            return;
+        }
+
+        long id = Long.parseLong((String) tableEmpleados.getValueAt(tableEmpleados.getSelectedRow(), 0));
+        Connection connection = Database.getConnection();
+
+        String query = "SELECT * FROM Empleados WHERE ID_Empleado = ?";
+        String telefonosQuery = "SELECT Telefono FROM Telefonos_Empleados WHERE ID_Empleado = ?";
+        String emailsQuery = "SELECT Correo FROM Correos_Empleados WHERE ID_Empleado = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement telefonosStatement = connection.prepareStatement(telefonosQuery);
+            PreparedStatement emailsStatement = connection.prepareStatement(emailsQuery);
+
+            statement.setLong(1, id);
+            telefonosStatement.setLong(1, id);
+            emailsStatement.setLong(1, id);
+
+            ResultSet results = statement.executeQuery();
+            ResultSet resultsTelefonos = telefonosStatement.executeQuery();
+            ResultSet resultsCorreos = emailsStatement.executeQuery();
+
+            ArrayList<String> telefonos = new ArrayList<>();
+            ArrayList<String> correos = new ArrayList<>();
+
+            while (resultsTelefonos.next()) {
+                telefonos.add(resultsTelefonos.getString("Telefono"));
+            }
+
+            while (resultsCorreos.next()) {
+                correos.add(resultsCorreos.getString("Correo"));
+            }
+
+            if (results.next()) {
+
+                String puesto = "";
+                String queryPuesto = "SELECT ID_Puesto, Puesto FROM Puestos WHERE ID_Puesto=?";
+                try {
+                    PreparedStatement statementPuesto = connection.prepareStatement(queryPuesto);
+                    statementPuesto.setLong(1, results.getLong("ID_Puesto"));
+                    ResultSet resultsPuesto = statementPuesto.executeQuery();
+
+                    if (resultsPuesto.next()) {
+                        puesto = resultsPuesto.getString("Puesto");
+                    }
+
+                    statement.close();
+
+                } catch (SQLException error) {
+                    JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                new MedicoDetalles(new String[]{
+                    results.getString("DPI"),
+                    results.getString("NIT"),
+                    results.getString("Nombre"),
+                    results.getString("Apellido"),
+                    results.getString("Direccion"),
+                    results.getString("Sexo"),
+                    puesto
+                }, telefonos, correos).setVisible(true);
+            }
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnVerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -720,10 +789,10 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarEmail;
     private javax.swing.JButton btnAgregarEmpleado;
     private javax.swing.JButton btnAgregarTelefono;
-    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRemoverEmail;
     private javax.swing.JButton btnRemoverTelefono;
+    private javax.swing.JButton btnVer;
     private javax.swing.JComboBox<String> comboEmails;
     private javax.swing.JComboBox<String> comboPuestos;
     private javax.swing.JComboBox<String> comboSexo;
