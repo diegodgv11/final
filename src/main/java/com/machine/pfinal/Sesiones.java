@@ -757,7 +757,7 @@ public class Sesiones extends javax.swing.JFrame {
                 tableModel.addRow(new String[]{
                     results.getString("ID_Sesion"),
                     results.getString("ID_Paciente"),
-                    results.getString("Fecha"),
+                    new SimpleDateFormat("dd/MM/yyyy").format(results.getDate("Fecha")),
                     results.getString("ID_Terapia"),
                     results.getString("ID_Medico")});
 
